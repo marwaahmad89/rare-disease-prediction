@@ -1,5 +1,10 @@
 from import_export import resources
+from dateutil import parser
+from datetime import datetime
 from .models import *
+import pytz
+
+
 
 class DiagmosisResource(resources.ModelResource):
     class Meta:
@@ -53,5 +58,12 @@ class N_ProcedureResource(resources.ModelResource):
         model = N_Procedure
 
 class N_VisitResource(resources.ModelResource):
+
+    def get_instance(self, instance_loader, row):
+        # convert date time to django format
+        row['EVENTDATETIME'] = parser.parse(row['EVENTDATETIME']).replace(tzinfo=pytz.UTC)
+        # convert to integere
+        row['PERSONID'] = int(row['PERSONID'])
+
     class Meta:
         model = N_Visit

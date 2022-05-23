@@ -1,3 +1,4 @@
+import resource
 from import_export.admin import ImportExportModelAdmin
 from .models import *
 from django.contrib import admin
@@ -6,6 +7,7 @@ from django.contrib import admin
 import django.contrib.auth.admin
 import django.contrib.auth.models
 from django.contrib import auth
+from .resources import N_VisitResource
 
 admin.site.unregister(auth.models.User)
 admin.site.unregister(auth.models.Group)
@@ -38,5 +40,6 @@ class N_ProcedureAdmin(ImportExportModelAdmin):
 
 @admin.register(N_Visit)
 class N_VisitAdmin(ImportExportModelAdmin):
+    resource_class = N_VisitResource
     list_display = [field.name for field in N_Visit._meta.get_fields()]
 
